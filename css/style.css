@@ -46,6 +46,36 @@ body {
     background-color: #F3F5F7;
 }
 
+.fixedbar {
+    position: fixed;
+    top: 500px;
+    left: 50%;
+    width: 162px;
+    height: 420px;
+    background-color: #fff;
+    margin-left: -800px;
+    padding-left: 18px;
+    z-index: 999;
+    border-radius: 2px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .2);
+}
+
+.fixedbar li {
+    height: 37px;
+}
+
+.fixedbar li:first-child {
+    margin-top: 10px;
+}
+
+.fixedbar li a {
+    color: #050505;
+}
+
+.fixedbar li a:hover {
+    color: #00a4ff;
+}
+
 /* header start */
 .header {
     height: 42px;
@@ -300,6 +330,7 @@ body {
 }
 
 .box-bd li {
+    position: relative;
     float: left;
     width: 228px;
     height: 250px;
@@ -315,6 +346,13 @@ body {
 
 .box-bd li img {
     width: 100%;
+}
+
+.box-bd .hot {
+    position: absolute;
+    top: 5px;
+    right: -4px;
+    width: 40px;
 }
 
 .box-bd li h4 {
