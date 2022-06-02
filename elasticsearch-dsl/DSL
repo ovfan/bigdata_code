@@ -1,0 +1,355 @@
+GET _cat/nodes?v
+
+#服务状态查询
+GET _cat/health?v
+
+#查询各个节点的状态
+GET _cat/nodes?v
+
+#查询各个索引的状态
+GET _cat/indices/?v
+
+#查询各个索引的分片情况
+GET _cat/shards?v
+
+#查询各个节点的分片情况
+GET _cat/allocation?v
+
+#查询文档总数
+GET _cat/count?v
+
+# 几个参数:
+# &: 拼接多个参数
+# v: 显示表头
+# help:显示命令返回的参数说明
+GET _cat/count?v&help
+
+# h: 指定要显示的列
+GET _cat/count?v&h=count
+
+# format: 指定格式
+GET _cat/count?v&format=txt
+GET _cat/count?v&format=json
+
+# s: 指定排序
+GET _cat/indices/?v&s=docs.count:desc
+
+
+# ES存储的数据格式:
+# Movie  Actor
+# Mysql中如何存储？
+# movie表
+#     id          movie_name
+#    1001         速度与激情
+#    1002         长津湖
+#    1003         红海行动
+
+# actor表
+#    id    actor_name
+#   101      范迪塞尔
+#   102      吴京
+#   103      张译
+#   104      海清
+
+
+# ma表
+#  movie_id  actor_id
+#   1001      101
+#   1002      102
+#   1003      103
+#   1003      104
+#   1002      103
+
+# ES中如何存储?
+# 所见即所得
+# {
+#  "id":"1",
+#  "name":"operation red sea",
+#  "doubanScore":"8.5",
+#  "actorList":[
+#      {"id":"1","name":"zhangyi"},
+#      {"id":"2","name":"haiqing"},
+#      {"id":"3","name":"zhanghanyu"}
+#   ]
+# }
+
+# 创建索引(不指定结构,会按照第一条数据自动推断)
+# 创建索引(指定结构,后面讲)
+PUT movie_index
+
+# 插入数据(幂等)
+# 幂等写入必须指定docId,
+PUT movie_index/_doc/1
+{ "id":1,
+  "name":"operation red sea",
+  "doubanScore":8.5,
+  "actorList":[
+{"id":1,"name":"zhang yi"},
+{"id":2,"name":"hai qing"},
+{"id":3,"name":"zhang han yu"}
+]
+}
+
+
+PUT /movie_index/_doc/2
+{
+  "id":2,
+  "name":"operation meigong river",
+  "doubanScore":8.0,
+  "actorList":[
+{"id":3,"name":"zhang han yu"}
+]
+}
+
+
+PUT /movie_index/_doc/3
+{
+  "id":3,
+  "name":"incident red sea",
+  "doubanScore":5.0,
+  "actorList":[
+{"id":4,"name":"atguigu"}
+]
+}
+
+
+# 查询索引中的所有的数据
+GET movie_index/_search
+
+
+# 插入数据(非幂等)
+# 不需要指定docId
+POST movie_index/_doc
+{ "id":1,
+  "name":"operation red sea",
+  "doubanScore":8.5,
+  "actorList":[
+{"id":1,"name":"zhang yi"},
+{"id":2,"name":"hai qing"},
+{"id":3,"name":"zhang han yu"}
+]
+}
+
+
+# 查看索引结构
+GET movie_index/_mapping
+# ES默认给字符串数据存两种类型:
+# text:  倒排索引
+# keyword: 列式存储
+
+
+# 删除索引
+DELETE movie_index
+
+# 修改
+# 可以通过幂等写来实现整体覆盖修改
+
+GET movie_index/_search
+
+# 修改指定doc指定的字段
+POST movie_index/_update/3
+{
+  "doc": {
+    "doubanScore":7.0
+  }
+}
+
+# 删除
+DELETE movie_index/_doc/3
+
+
+# 查询
+# 查询所有的数据
+GET movie_index/_search
+
+GET movie_index/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+# 查询指定docid的数据
+GET movie_index/_doc/1
+
+# 按照分词查询
+# 分词匹配'operation red sea'
+
+GET movie_index/_search
+{
+  "query": {
+    "match": {
+      "name": "operation red sea"
+    }
+  }
+}
+
+# 分析
+GET movie_index/_mapping
+
+# operation red sea    1
+# operation meigong river 2
+# incident red sea     3
+
+# 倒排索引
+# operation  1 2
+# red 1 3
+# sea 1 3
+# meigong 2
+# river 2
+# incident 3
+
+# 分词匹配:
+# 关键字: operation red sea
+# 分词:
+# operation  1 2
+# red 1 3
+# sea 1 3
+
+# 结果: 1 1 1 3 3 2
+
+
+# 分词子属性查询
+GET movie_index/_search
+{
+  "query": {
+    "match": {
+      "actorList.name": "zhang yi"
+    }
+  }
+}
+
+
+# 短语查询
+GET movie_index/_search
+{
+  "query": {
+    "match_phrase": {
+      "actorList.name": "zhang yi"
+    }
+  }
+}
+
+GET movie_index/_search
+{
+  "query": {
+    "match": {
+      "actorList.name.keyword": "zhang yi"
+    }
+  }
+}
+
+
+GET movie_index/_search
+
+# 条件过滤
+# 按照name="operation red sea"进行值等匹配
+GET movie_index/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "term": {
+            "name.keyword": "operation red sea"
+          }
+        }
+      ]
+    }
+  }
+}
+
+
+# 查询doubanScore大于等于8.0的数据
+GET movie_index/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "range": {
+            "doubanScore": {
+              "gte": 8.0
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+# 分词匹配'red sea' , 条件过滤doubanscore大于8.0的数据
+# must
+GET movie_index/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "range": {
+            "doubanScore": {
+              "gte": 8.0
+            }
+          }
+        }
+      ]
+    ,
+    "must": [
+      {
+        "match": {
+          "name": "red sea"
+        }
+      }
+    ]
+
+    }
+  }
+}
+
+# should
+GET movie_index/_search
+{
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "range": {
+            "doubanScore": {
+              "gte": 8.0
+            }
+          }
+        }
+      ]
+    ,
+    "should": [
+      {
+        "match": {
+          "name": "red sea"
+        }
+      }
+    ]
+
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
