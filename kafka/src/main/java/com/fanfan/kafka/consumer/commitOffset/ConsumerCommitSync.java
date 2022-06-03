@@ -17,6 +17,12 @@ import java.util.Properties;
  * @Author: fanfan
  * @DateTime: 2022年06月04日 00时09分
  * @Version: v1.0
+ *
+ * *  * 消费者客户端
+ *  *  * 1. 获取客户端连接对象
+ *  *  * 2. 订阅主题
+ *  *  * 3. 调用API方进行消费
+ *  *  * 4. 数据的处理（根据业务需求而定....）--实时开发中用到的多
  */
 public class ConsumerCommitSync {
     public static void main(String[] args) {
