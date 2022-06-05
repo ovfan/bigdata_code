@@ -1,0 +1,108 @@
+1. HBase shell namespace
+   1) 查看所有的namespace
+      list_namespace
+   2) 创建namespace
+      create_namespace 'mydb'
+      create_namespace 'mydb1' , {'createtime'=>'2022-05-31' , 'author'=>'atguigu'}
+   3) 查看namespace的详情
+      describe_namespace 'mydb'
+   4) 修改namespace
+      alter_namespace 'mydb1' , {METHOD=>'set' , 'author'=>'wyh' }
+      alter_namespace 'mydb1' , {METHOD=>'set' , 'addr'=>'beijing'}
+      alter_namespace 'mydb1' , {METHOD=>'set' , 'author'=>'wyh' ,'addr'=>'beijing'}
+      alter_namespace 'mydb1' , {METHOD=>'unset' , NAME=>'addr' }
+   5) 删除namespace(只能删除空的namespace)
+      drop_namespace 'mydb'
+   6) 查看namespace下的表
+      list_namespace_tables 'mydb1'
+
+2. HBase shell table ddl
+
+   1) 查看所有的表
+      list
+
+   2) 创建表
+      create 'test1', {NAME=>'info1' , VERSIONS=>'3'} , {NAME=>'info2'}
+      create 'mydb1:test2' , {NAME=>'info1'}
+      create 'test3' , 'info1' , 'info2'
+
+   3) 查看表的详情
+      describe 'test1'
+      desc 'test1'
+
+   4) 修改表
+      alter 'test3' , NAME=> 'info1' , VERSIONS => 5
+      alter 'test3' , NAME=> 'info3' , VERSIONS => 5
+      alter 'test3',  NAME => 'info1', METHOD => 'delete'
+      alter 'test3', 'delete' => 'info2'
+
+   5) 表的状态
+      is_enabled 'test3'
+      is_disabled 'test3'
+      disable 'test3'
+      enable 'test3'
+
+   6) 删除表
+      disable 'test3'
+      drop 'test3'
+
+   7) 查看表是否存在
+      exists 'test3'
+
+   8) 查看表的regions
+      list_regions 'test3'
+
+3. HBase shell table dml
+
+   1) 新增数据
+      disable 'stu'
+      drop 'stu'
+      create 'stu' , 'info1' , 'info2'
+      put 'stu' , '1001' , 'info1:name' , 'zhangsan'
+      put 'stu' , '1001' , 'info1:age'  , '20'
+      put 'stu' , '1001' , 'info1:gender' , 'man'
+      put 'stu' , '1001' , 'info2:addr' , 'beijing'
+
+      put 'stu' , '1002' , 'info1:name' , 'lisi'
+      put 'stu' , '1002' , 'info1:age'  , '25'
+      put 'stu' , '1002' , 'info1:gender' , 'woman'
+      put 'stu' , '1002' , 'info2:addr' , 'shanghai'
+      put 'stu' , '1002' , 'info2:passwd' , 'nicai'
+
+      put 'stu' , '1003' , 'info1:name' , 'wangwu'
+      put 'stu' , '1003' , 'info1:age'  , '30'
+      put 'stu' , '1003' , 'info1:gender' , 'man'
+      put 'stu' , '1003' , 'info2:addr' , 'tianjing'
+
+      put 'stu' , '10021' , 'info1:name' , 'zhaoliu'
+      put 'stu' , '10021' , 'info1:age'  , '35'
+      put 'stu' , '10021' , 'info1:gender' , 'man'
+      put 'stu' , '10021' , 'info2:addr' , 'hebei'
+
+      put 'stu' , '10020' , 'info1:name' , 'tianqi'
+      put 'stu' , '10020' , 'info1:age'  , '40'
+      put 'stu' , '10020' , 'info1:gender' , 'women'
+      put 'stu' , '10020' , 'info2:addr' , 'shanxi'
+
+
+   2) 基于rowkey查询数据
+      get 'stu' , '1001'
+      get 'stu' , '1001' , 'info1:name'
+
+   3) 扫描数据
+      scan 'stu'
+      scan 'stu' ,{STARTROW=>'1001'  , STOPROW=> '1002!'}
+      scan 'stu' ,{STARTROW=>'1001'  , STOPROW=> '1002|'}
+      scan 'stu' , {RAW=>true, VERSIONS=>5}
+
+   4) 修改数据
+      put 'stu' , '1001' , 'info1:name' ,'zhangxiaosan'
+
+   5) 删除操作
+      delete 'stu' , '1001' , 'info1:name'  删除指定版本的数据，默认最新版本(Delete)
+      deleteall 'stu' , '1002' , 'info1:name' 删除一个列所有版本的数据(DeleteColumn)
+      deleteall 'stu' , '1002' 删除整个列族的数据(DeleteFamily)
+   6) 统计表中的数据条数
+      count 'stu'
+   7) 清空表数据
+      truncate 'stu'  直接删除内存中对应的数据和HDFS中对应的数据文件
