@@ -7,7 +7,7 @@
    3) 查看namespace的详情
       describe_namespace 'mydb'
    4) 修改namespace
-      alter_namespace 'mydb1' , {METHOD=>'set' , 'author'=>'wyh' }
+      alter_namespace 'mydb1' , {METHOD=>'set' , 'author'=>'fanfan' }
       alter_namespace 'mydb1' , {METHOD=>'set' , 'addr'=>'beijing'}
       alter_namespace 'mydb1' , {METHOD=>'set' , 'author'=>'fanfan' ,'addr'=>'beijing'}
       alter_namespace 'mydb1' , {METHOD=>'unset' , NAME=>'addr' }
