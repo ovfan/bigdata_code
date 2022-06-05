@@ -9,7 +9,7 @@
    4) 修改namespace
       alter_namespace 'mydb1' , {METHOD=>'set' , 'author'=>'wyh' }
       alter_namespace 'mydb1' , {METHOD=>'set' , 'addr'=>'beijing'}
-      alter_namespace 'mydb1' , {METHOD=>'set' , 'author'=>'wyh' ,'addr'=>'beijing'}
+      alter_namespace 'mydb1' , {METHOD=>'set' , 'author'=>'fanfan' ,'addr'=>'beijing'}
       alter_namespace 'mydb1' , {METHOD=>'unset' , NAME=>'addr' }
    5) 删除namespace(只能删除空的namespace)
       drop_namespace 'mydb'
