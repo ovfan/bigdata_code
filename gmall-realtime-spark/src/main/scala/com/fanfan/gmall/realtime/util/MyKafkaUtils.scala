@@ -8,7 +8,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord
  */
 object MyKafkaUtils {
   /**
-   * 从kafka中消费数据
+   * 从kafka中消费数据s
    * 获取到InputStream对象，
    */
 
