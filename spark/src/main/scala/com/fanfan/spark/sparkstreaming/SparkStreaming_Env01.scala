@@ -17,7 +17,7 @@ object SparkStreaming_Env01 {
     ssc.awaitTermination()
 
     //TODO 环境对象不能停止，如果停止，那么数据就无法采集
-    //      环境对象不能停止但是main方法也不能结束，一旦结束，Driver就会结束。
+    //      环境对象不能停止但是main方法也不能结束，一旦结束，Driver就会结束。,
 
     // ssc.stop()
   }
