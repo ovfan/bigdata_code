@@ -40,7 +40,7 @@ public class Example1 {
                 .setParallelism(1);
 
 
-        // 执行提交任务
+        // 提交并执行任务
         env.execute();
     }
 
