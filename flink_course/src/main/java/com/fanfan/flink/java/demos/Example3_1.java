@@ -16,6 +16,7 @@ public class Example3_1 {
     public static void main(String[] args) throws Exception {
         //Flink 流处理环境
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
+
         env.fromElements("Hello flink", "hello flink", "hello spark")
                 .flatMap(new Tokenizer())
                 .keyBy(wordcount -> wordcount.word)
