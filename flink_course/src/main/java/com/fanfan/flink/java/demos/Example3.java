@@ -48,8 +48,8 @@ public class Example3 {
     // POJO Class
     // 用来模拟scala的样例类：case class WordCount(word: String, count: Int)
     // 1. 必须是公有类
-    // 2. 所有字段必须是公有字段
-    // 3. 必须有空构造器
+    //    // 2. 所有字段必须是公有字段
+    //    // 3. 必须有空构造器
     public static class WordCount{
         public String word;
         public Integer count;
