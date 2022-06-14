@@ -10,7 +10,7 @@ import org.apache.flink.util.Collector;
  * @ClassName: Example3
  * @Description: POJO 类模拟scala中的样例类
  * @Author: fanfan
- * @DateTime: 2022年06月14日 14时58分
+ * @DateTime: 2022年06月14日 14时58分1
  * @Version: v1.0
  */
 public class Example3 {
