@@ -15,29 +15,31 @@ import java.util.Random;
 
 // TODO --自定义数据源,需要实现SourceFunction<E>
 public class ClickSource implements SourceFunction<ClickEvent> {
-    private boolean running = true;
-    // 模拟数据
-    Random random = new Random();
-    private String[] userArr = {"fanfan","qiqi","peipei"};
-    private String[] userUrl = {"./home","./cart","./buy"};
+    // 持续不断发送数据
+    private boolean runnig = true;
 
-    // run方法不断的发送数据
+    // 模拟生成数据
+    private Random random = new Random();
+    private String[] userArray = {"fanfan", "qiqi", "peipei"};
+    private String[] urlArray = {"./home", "./cart", "./other", "./phone"};
+
     @Override
-    public void run(SourceContext<ClickEvent> cxt) throws Exception {
-        while (running){
-            cxt.collect(new ClickEvent(userArr[random.nextInt(userArr.length)],
-                    userUrl[random.nextInt(userUrl.length)],
-                    // 获取当前的机器时间，作为事件的事件时间
-                    Calendar.getInstance().getTimeInMillis()
-                    ));
-            // 一秒发送一次
-            Thread.sleep(1000L);
+    public void run(SourceContext<ClickEvent> ctx) throws Exception {
+        while (runnig) {
+            // 发送的数据对象为 一个一个的点击事件
+            ctx.collect(new ClickEvent(
+                    userArray[random.nextInt(userArray.length)],    //用户名
+                    urlArray[random.nextInt(urlArray.length)],      //点击的页面
+                    Calendar.getInstance().getTimeInMillis()        //点击页面的事件事件
+            ));
+
+            // 每秒钟发送一次数据
+            Thread.sleep(1000);
         }
     }
 
-    // 取消发送数据
     @Override
     public void cancel() {
-        running = false;
+        runnig = false;
     }
 }
