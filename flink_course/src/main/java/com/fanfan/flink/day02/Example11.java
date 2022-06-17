@@ -65,8 +65,9 @@ public class Example11 {
 
     //TODO 统计类，计算最大值，最小值，累加值，出现次数，平均数
     public static class Statistic implements ReduceFunction<Tuple5<Integer, Integer, Integer, Integer, Integer>> {
+        // reduce方法的第一个参数是累加器，第二个参数是输入参数
         @Override
-        public Tuple5<Integer, Integer, Integer, Integer, Integer> reduce(Tuple5<Integer, Integer, Integer, Integer, Integer> in, Tuple5<Integer, Integer, Integer, Integer, Integer> acc) throws Exception {
+        public Tuple5<Integer, Integer, Integer, Integer, Integer> reduce(Tuple5<Integer, Integer, Integer, Integer, Integer> acc, Tuple5<Integer, Integer, Integer, Integer, Integer> in) throws Exception {
             return Tuple5.of(
                     Math.max(in.f0, acc.f0),    // 最大值
                     Math.min(in.f1, acc.f1),     // 最小值

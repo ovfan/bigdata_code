@@ -18,6 +18,7 @@ import java.sql.PreparedStatement;
  * @DateTime: 2022年06月17日 10时47分
  * @Version: v1.0
  * TODO 手写Flink的Mysql连接器---Flink的NySQL驱动
+ * 自定义输出
  * 实现幂等性写入~~
  */
 public class Example4 {
