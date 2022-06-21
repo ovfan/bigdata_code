@@ -55,6 +55,7 @@ public class Example9 {
 
         @Override
         public void processElement(Integer in, Context context, Collector<IntStatistic> out) throws Exception {
+            // IntStatistic IntStatisticObj = accumulator.value();
             if (accumulator.value() == null) {
                 //初始化值状态变量
                 // accumulator.value() == null说明到达的数据是数据流的第一条数据

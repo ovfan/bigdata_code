@@ -12,7 +12,7 @@ import java.sql.Timestamp;
  * @Author: fanfan
  * @DateTime: 2022年06月17日 14时59分
  * @Version: v1.0
- * DataStream 底层API
+ * DataStream 底层API processFunction<String,String> 输入数据、输出数据</>
  */
 public class Example7 {
     public static void main(String[] args) throws Exception {
