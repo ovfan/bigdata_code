@@ -15,21 +15,25 @@
     <dependencies>
         <dependency>
             <groupId>org.apache.flink</groupId>
+            <!-- flink引擎对外提供的java api-->
             <artifactId>flink-java</artifactId>
             <version>${flink.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
+            <!--flink底层引擎-->
             <artifactId>flink-streaming-java_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
+            <!-- flink通过 client 组件往flink集群提交jar包(程序)-->
             <artifactId>flink-clients_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.flink</groupId>
+            <!--做复杂事件处理-->
             <artifactId>flink-cep_${scala.binary.version}</artifactId>
             <version>${flink.version}</version>
         </dependency>
@@ -90,7 +94,9 @@
     <build>
         <plugins>
             <plugin>
+
                 <groupId>org.apache.maven.plugins</groupId>
+                <!-- 插件: 2.将java字节码文件打成jar包，带有依赖-->
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>3.3.0</version>
                 <configuration>
@@ -110,6 +116,7 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <!-- 1.用来将java程序编译成字节码文件 -->
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
