@@ -12,7 +12,7 @@ import java.util.Random;
 /**
  * @ClassName: Example7
  * @Description: TODO 练习逻辑分区算子 reduce
- * 完成 整数流的统计功能
+ * 完成 整数流的历史统计功能
  * @Author: fanfan
  * @DateTime: 2022年08月19日 16时02分
  * @Version: v1.0
