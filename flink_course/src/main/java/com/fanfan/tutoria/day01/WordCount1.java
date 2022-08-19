@@ -22,7 +22,7 @@ public class WordCount1 {
         // 2. 定义处理数据的有向无环图DAG
         // 从socket读取数据,先启动 `nc -lk 9999`
         env
-                .socketTextStream("192.168.44.102", 9999)
+                .socketTextStream("hadoop102", 9999)
                 // 设置socketTextStream算子的并行子任务的数量 为 1
                 .setParallelism(1)
                 // map阶段 "hello world"  => (hello, 1) (world, 1)
