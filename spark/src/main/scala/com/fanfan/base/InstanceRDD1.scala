@@ -19,5 +19,7 @@ object InstanceRDD1 {
     val rdd3: RDD[String] = sc.textFile("spark/src/main/resources/apache.log")
     rdd3.collect().foreach(println)
     rdd2.collect().foreach(println)
+
+    sc.stop()
   }
 }
