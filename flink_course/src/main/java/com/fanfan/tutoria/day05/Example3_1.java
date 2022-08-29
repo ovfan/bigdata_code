@@ -93,6 +93,8 @@ public class Example3_1 {
                     windowEndTime
 
             ));
+            // 将窗口销毁
+            mapState.remove(windowInfo);
         }
     }
 
